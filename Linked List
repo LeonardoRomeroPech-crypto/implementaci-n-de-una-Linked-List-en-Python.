@@ -1,0 +1,98 @@
+# Nodo de la lista
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.siguiente = None
+
+
+# Lista Enlazada
+class LinkedList:
+    def __init__(self):
+        self.cabeza = None
+
+    # Insertar al inicio
+    def insertar_inicio(self, dato):
+        nuevo = Nodo(dato)
+        nuevo.siguiente = self.cabeza
+        self.cabeza = nuevo
+
+    # Insertar al final
+    def insertar_final(self, dato):
+        nuevo = Nodo(dato)
+        if self.cabeza is None:
+            self.cabeza = nuevo
+            return
+        
+        actual = self.cabeza
+        while actual.siguiente:
+            actual = actual.siguiente
+        
+        actual.siguiente = nuevo
+
+    # Insertar en posición
+    def insertar_posicion(self, dato, posicion):
+        if posicion == 0:
+            self.insertar_inicio(dato)
+            return
+        
+        nuevo = Nodo(dato)
+        actual = self.cabeza
+        
+        for _ in range(posicion - 1):
+            if actual is None:
+                raise IndexError("Posición fuera de rango")
+            actual = actual.siguiente
+        
+        nuevo.siguiente = actual.siguiente
+        actual.siguiente = nuevo
+
+    # Eliminar un nodo por valor
+    def eliminar(self, dato):
+        actual = self.cabeza
+
+        if actual and actual.dato == dato:
+            self.cabeza = actual.siguiente
+            return
+
+        anterior = None
+        while actual and actual.dato != dato:
+            anterior = actual
+            actual = actual.siguiente
+
+        if actual is None:
+            print("Elemento no encontrado")
+            return
+
+        anterior.siguiente = actual.siguiente
+
+    # Buscar un elemento
+    def buscar(self, dato):
+        actual = self.cabeza
+        posicion = 0
+
+        while actual:
+            if actual.dato == dato:
+                return posicion
+            actual = actual.siguiente
+            posicion += 1
+
+        return -1
+
+    # Mostrar lista
+    def mostrar(self):
+        actual = self.cabeza
+        while actual:
+            print(actual.dato, end=" -> ")
+            actual = actual.siguiente
+        print("None")
+
+    # Obtener tamaño
+    def tamaño(self):
+        contador = 0
+        actual = self.cabeza
+
+        while actual:
+            contador += 1
+            actual = actual.siguiente
+
+        return contador
